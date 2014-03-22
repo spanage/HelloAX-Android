@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Hello #a11y</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="button_minus">-</string>
+    <string name="button_plus">+</string>
+    <string name="switch_fill">Fill circles?</string>
+
+
+</resources>

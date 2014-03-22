@@ -1,0 +1,11 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+    </style>
+
+    <style name="AppTheme.Buttons" parent="android:Theme.Holo.Light.DarkActionBar">
+        <item name="android:textSize">40sp</item>
+    </style>
+
+</resources>
