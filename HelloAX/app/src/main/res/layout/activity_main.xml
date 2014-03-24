@@ -13,21 +13,28 @@
         android:id="@+id/linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="2"
+        android:weightSum="5"
         android:layout_marginBottom="@dimen/activity_button_bottom_margin">
 
-        <Button style="@style/AppTheme.Buttons"
+        <Button style="@style/AppTheme.MinusButton"
             android:id="@+id/minus_button"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="@string/button_minus"
-            android:textStyle="bold"
             android:src="@android:drawable/btn_minus"/>
 
-        <ImageButton style="@style/AppTheme.Buttons"
+        <Button
+                android:id="@+id/clear_button"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:text="Clear"
+                android:src="@android:drawable/btn_minus"/>
+
+        <ImageButton
             android:id="@+id/plus_button"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:layout_height="match_parent"
             android:layout_width="wrap_content"
             android:textStyle="bold"
@@ -36,6 +43,7 @@
     </LinearLayout>
 
     <com.sommerpanage.helloax.app.DotView style="@style/AppTheme.Dots"
+        android:id="@+id/dot_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/linear_layout"/>
