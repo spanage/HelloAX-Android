@@ -1,0 +1,8 @@
+<resources>
+    <declare-styleable name="DotView">
+        <attr name="dotRadius" format="dimension" />
+        <attr name="dotColor1" format="color" />
+        <attr name="dotColor2" format="color" />
+        <attr name="dotColor3" format="color" />
+    </declare-styleable>
+</resources>

@@ -2,16 +2,41 @@ package com.sommerpanage.helloax.app;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 
 public class MainActivity extends Activity {
+
+    private Button mMinusButton;
+    private Button mPlusButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mMinusButton = (Button) findViewById(R.id.minus_button);
+        mPlusButton = (Button) findViewById(R.id.plus_button);
+
+        setupButton(mMinusButton);
+        setupButton(mPlusButton);
+    }
+
+    private void setupButton(Button button) {
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v == mMinusButton) {
+                    Log.d("MainActivity", "Subtract");
+                } else if (v == mPlusButton) {
+                    Log.d("MainActivity", "Add");
+                }
+            }
+        });
     }
 
 

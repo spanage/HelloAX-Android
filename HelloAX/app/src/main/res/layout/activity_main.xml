@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relative_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -9,28 +10,34 @@
     tools:context="com.sommerpanage.helloax.app.MainActivity">
 
     <LinearLayout
+        android:id="@+id/linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:weightSum="2"
-        android:id="@+id/linearLayout"
-        android:layout_marginBottom="30sp">
+        android:layout_marginBottom="@dimen/activity_button_bottom_margin">
 
         <Button style="@style/AppTheme.Buttons"
             android:id="@+id/minus_button"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:text="@string/button_minus"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:src="@android:drawable/btn_minus"/>
 
-        <Button style="@style/AppTheme.Buttons"
+        <ImageButton style="@style/AppTheme.Buttons"
             android:id="@+id/plus_button"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_width="fill_parent"
-            android:text="@string/button_plus"
-            android:textStyle="bold"/>
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:textStyle="bold"
+            android:src="@android:drawable/ic_input_add"/>
 
     </LinearLayout>
+
+    <com.sommerpanage.helloax.app.DotView style="@style/AppTheme.Dots"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/linear_layout"/>
 
 </RelativeLayout>

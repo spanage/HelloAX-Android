@@ -4,8 +4,17 @@
     <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
     </style>
 
-    <style name="AppTheme.Buttons" parent="android:Theme.Holo.Light.DarkActionBar">
-        <item name="android:textSize">40sp</item>
+    <style name="AppTheme.Buttons">
+        <item name="android:textSize">@dimen/activity_button_text_size</item>
+        <item name="android:textColor">@color/minusTextColor</item>
+
+    </style>
+
+    <style name="AppTheme.Dots">
+        <item name="com.sommerpanage.helloax.app:dotColor1">@color/yellowDotColor</item>
+        <item name="com.sommerpanage.helloax.app:dotColor2">@color/redDotColor</item>
+        <item name="com.sommerpanage.helloax.app:dotColor3">@color/blueDotColor</item>
+        <item name="com.sommerpanage.helloax.app:dotRadius">10sp</item>
     </style>
 
 </resources>

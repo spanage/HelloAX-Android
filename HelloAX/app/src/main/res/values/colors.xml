@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="defaultDotColor">#ffffffff</color>
+    <color name="redDotColor">#ffff0000</color>
+    <color name="blueDotColor">#ff3333ff</color>
+    <color name="yellowDotColor">#ffffff00</color>
+    <color name="minusTextColor">#ffff0000</color>
+
+</resources>
