@@ -5,12 +5,17 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat;
+import android.support.v4.widget.ExploreByTouchHelper;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.accessibility.AccessibilityEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +44,8 @@ public class DotView extends View {
     private float mPreviousWidth;
     private float mPreviousHeight;
 
+    private DotViewTouchHelper mDotViewTouchHelper;
+
     public DotView(Context context) {
         super(context);
         init(null, 0);
@@ -60,14 +67,12 @@ public class DotView extends View {
                 mDotRadius,
                 getRandomPaintIndex()));
         invalidate();
-        updateAccessibility();
     }
 
     public void removeLastDot() {
         if (!mDotsArray.isEmpty()) {
             mDotsArray.remove(mDotsArray.size() - 1);
             invalidate();
-            updateAccessibility();
         }
 
     }
@@ -75,15 +80,6 @@ public class DotView extends View {
     public void clearDots() {
         mDotsArray.clear();
         invalidate();
-        updateAccessibility();
-    }
-
-    private void updateAccessibility() {
-        final int dotCount = mDotsArray.size();
-        final String contentDescription = (dotCount == 1) ?
-                getContext().getString(R.string.ax_basic_dot_view_singular) :
-                String.format(getContext().getString(R.string.ax_basic_dot_view_plural_format), dotCount);
-        setContentDescription(contentDescription);
     }
 
     private float getRandomDotCenterPoint(boolean isX) {
@@ -131,7 +127,8 @@ public class DotView extends View {
 
         mDotsArray = new ArrayList<DotDrawing>();
 
-        updateAccessibility();
+        mDotViewTouchHelper = new DotViewTouchHelper(this);
+        ViewCompat.setAccessibilityDelegate(this, mDotViewTouchHelper);
     }
 
     private Paint getPaintForColor(int color) {
@@ -225,7 +222,6 @@ public class DotView extends View {
         mDotsArray = ss.getSavedDots();
         mPreviousWidth = ss.getSavedWidth();
         mPreviousHeight = ss.getSavedHeight();
-        updateAccessibility();
     }
 
     private static class SavedDotViewState extends BaseSavedState {
@@ -384,5 +380,82 @@ public class DotView extends View {
             }
         }
         return NO_INDEX;
+    }
+
+    // Custom Accessibility
+
+    @Override
+    public boolean dispatchHoverEvent(MotionEvent event) {
+        // Always attempt to dispatch hover events to accessibility first.
+        if (mDotViewTouchHelper.dispatchHoverEvent(event)) {
+            return true;
+        }
+
+        return super.dispatchHoverEvent(event);
+    }
+
+    private static class DotViewTouchHelper extends ExploreByTouchHelper {
+
+        DotView mView;
+
+        public DotViewTouchHelper(View forView) {
+            super(forView);
+            mView = (DotView) forView;
+        }
+
+        @Override
+        protected int getVirtualViewAt(float x, float y) {
+            final int index = mView.getDotIndexUnder(x, y);
+            if (index == NO_INDEX) {
+                return ExploreByTouchHelper.INVALID_ID;
+            }
+            return index;
+        }
+
+        @Override
+        protected void getVisibleVirtualViews(List<Integer> virtualViewIds) {
+            // May need more logic here if only some view are visible
+            final int n = mView.mDotsArray.size();
+            for (int i = 0; i < n; i++) {
+                virtualViewIds.add(i);
+            }
+        }
+
+        @Override
+        protected void onPopulateEventForVirtualView(
+                int virtualViewId, AccessibilityEvent event) {
+
+            final DotDrawing dot = dotDrawingForVirtualViewId(virtualViewId);
+            if (dot == null) {
+                throw new IllegalArgumentException("Invalid virtual view id");
+            }
+            event.setContentDescription(sDotNameArray.get((dot.getPaintIndex())));
+        }
+
+        @Override
+        protected void onPopulateNodeForVirtualView(
+                int virtualViewId, AccessibilityNodeInfoCompat node) {
+            final DotDrawing dot = dotDrawingForVirtualViewId(virtualViewId);
+            if (dot == null) {
+                throw new IllegalArgumentException("Invalid virtual view id");
+            }
+
+            node.setContentDescription(sDotNameArray.get((dot.getPaintIndex())));
+            node.setBoundsInParent(dot.getRect());
+        }
+
+        @Override
+        protected boolean onPerformActionForVirtualView(
+                int virtualViewId, int action, Bundle arguments) {
+            return false;
+        }
+
+        private DotDrawing dotDrawingForVirtualViewId(int id) {
+            if (id >= 0 && id < mView.mDotsArray.size()) {
+                return mView.mDotsArray.get(id);
+            } else {
+                return null;
+            }
+        }
     }
 }
