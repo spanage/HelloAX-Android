@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -54,9 +56,9 @@ public class DotView extends View {
 
     public void addRandomDot() {
         mDotsArray.add(new DotDrawing(getRandomDotCenterPoint(true),
-                       getRandomDotCenterPoint(false),
-                       mDotRadius,
-                       getRandomPaintIndex()));
+                getRandomDotCenterPoint(false),
+                mDotRadius,
+                getRandomPaintIndex()));
         invalidate();
     }
 
@@ -155,6 +157,34 @@ public class DotView extends View {
             canvas.drawCircle(dot.getCenterX(), dot.getCenterY(), dot.getRadius(), sPaintArray.get(dot.getPaintIndex()));
         }
 
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                return true;
+            case MotionEvent.ACTION_UP:
+                final int dotIndex = getDotIndexUnder(event.getX(), event.getY());
+                if (dotIndex >= 0) {
+                    onDotClicked(dotIndex);
+                }
+                return true;
+        }
+
+        return super.onTouchEvent(event);
+    }
+
+    private boolean onDotClicked(int index) {
+        final DotDrawing dot = mDotsArray.get(index);
+        if (dot == null) {
+            return false;
+        }
+
+        dot.setPaintIndex((dot.getPaintIndex() + 1) % sPaintArray.size());
+        invalidate();
+
+        return true;
     }
 
     @Override
@@ -287,8 +317,21 @@ public class DotView extends View {
             return mRadius;
         }
 
+        public void setPaintIndex(int paintIndex) {
+            mPaintIndex = paintIndex;
+        }
+
         public int getPaintIndex() {
             return mPaintIndex;
+        }
+
+        private Rect getRect() {
+            Rect rect = new Rect();
+            rect.set((int) (mCenterX - mRadius),
+                     (int) (mCenterY - mRadius),
+                     (int) (mCenterX + mRadius),
+                     (int) (mCenterY + mRadius));
+            return rect;
         }
 
         @Override
@@ -313,5 +356,19 @@ public class DotView extends View {
                         return new DotDrawing[size];
                     }
                 };
+    }
+
+    private static final int NO_INDEX = -1;
+
+    private int getDotIndexUnder(float x, float y) {
+        // We iterate backwards since the "top" dots are at the end of the array.
+        for (int i = mDotsArray.size() - 1; i >= 0; --i) {
+            DotDrawing dot = mDotsArray.get(i);
+            Rect rect = dot.getRect();
+            if (rect.contains((int) x, (int) y)) {
+                return i;
+            }
+        }
+        return NO_INDEX;
     }
 }
