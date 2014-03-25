@@ -54,6 +54,7 @@
         android:id="@+id/dot_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/linear_layout"/>
+        android:layout_below="@id/linear_layout"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

@@ -2,17 +2,12 @@ package com.sommerpanage.helloax.app;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-import java.util.ArrayList;
-
 
 public class MainActivity extends Activity {
-
-    private static final String DOTS_KEY = "dotsKey";
 
     private Button mMinusButton;
     private ImageButton mPlusButton;
@@ -47,20 +42,5 @@ public class MainActivity extends Activity {
                 }
             }
         });
-    }
-
-    @Override
-    protected void onSaveInstanceState (Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putParcelableArrayList(DOTS_KEY, mDotView.getDotsState());
-    }
-
-    @Override
-    protected void onRestoreInstanceState (Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            ArrayList<? extends Parcelable> dots = savedInstanceState.getParcelableArrayList(DOTS_KEY);
-            mDotView.setDotsState(dots);
-        }
-        super.onRestoreInstanceState(savedInstanceState);
     }
 }

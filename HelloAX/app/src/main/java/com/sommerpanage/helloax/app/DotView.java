@@ -33,6 +33,8 @@ public class DotView extends View {
     private float mOriginY;
     private float mWidth;
     private float mHeight;
+    private float mPreviousWidth;
+    private float mPreviousHeight;
 
     public DotView(Context context) {
         super(context);
@@ -83,7 +85,7 @@ public class DotView extends View {
     }
 
     private float getRandomDotCenterPoint(boolean isX) {
-        return randomIntInRange((int) getMinDotCenterPoint(true), (int) getMaxDotCenterPoint(false));
+        return randomIntInRange((int) getMinDotCenterPoint(isX), (int) getMaxDotCenterPoint(isX));
     }
 
     private float getMinDotCenterPoint(boolean isX) {
@@ -143,6 +145,15 @@ public class DotView extends View {
         mOriginY = getPaddingTop();
         mWidth = w - (getPaddingLeft() + getPaddingRight());
         mHeight = h - (getPaddingTop() + getPaddingBottom());
+
+        final boolean sizeRefreshed = (mPreviousWidth != 0 && mWidth != mPreviousWidth) ||
+                                      (mPreviousHeight != 0 && mHeight != mPreviousHeight);
+        if (sizeRefreshed) {
+            for (DotDrawing dot : mDotsArray) {
+                dot.setCenterX((float) Math.floor((double) dot.getCenterX() * mWidth/mPreviousWidth));
+                dot.setCenterY((float) Math.floor((double) dot.getCenterY() * mHeight/mPreviousHeight));
+            }
+        }
     }
 
     @Override
@@ -155,7 +166,97 @@ public class DotView extends View {
 
     }
 
-    private class DotDrawing implements Parcelable{
+    @Override
+    public Parcelable onSaveInstanceState() {
+        Parcelable superState = super.onSaveInstanceState();
+
+        SavedDotViewState ss = new SavedDotViewState(superState);
+        ss.setSavedDots(mDotsArray);
+        ss.setSavedWidth(mWidth);
+        ss.setSavedHeight(mHeight);
+
+        return ss;
+    }
+
+    @Override
+    public void onRestoreInstanceState(Parcelable state) {
+        if(!(state instanceof SavedDotViewState)) {
+            super.onRestoreInstanceState(state);
+            return;
+        }
+
+        SavedDotViewState ss = (SavedDotViewState) state;
+        super.onRestoreInstanceState(ss.getSuperState());
+
+        mDotsArray = ss.getSavedDots();
+        mPreviousWidth = ss.getSavedWidth();
+        mPreviousHeight = ss.getSavedHeight();
+    }
+
+    private static class SavedDotViewState extends BaseSavedState {
+        private List<DotDrawing> mSavedDots;
+        private float mSavedWidth;
+        private float mSavedHeight;
+
+        public List<DotDrawing> getSavedDots() {
+            return mSavedDots;
+        }
+
+        public void setSavedDots(List<DotDrawing> savedDots) {
+            mSavedDots = savedDots;
+        }
+
+        public float getSavedWidth() {
+            return mSavedWidth;
+        }
+
+        public void setSavedWidth(float savedWidth) {
+            mSavedWidth = savedWidth;
+        }
+
+        public float getSavedHeight() {
+            return mSavedHeight;
+        }
+
+        public void setSavedHeight(float savedHeight) {
+            mSavedHeight = savedHeight;
+        }
+
+
+        SavedDotViewState(Parcelable superState) {
+            super(superState);
+        }
+
+        private SavedDotViewState(Parcel in) {
+            super(in);
+            if (mSavedDots == null) {
+                mSavedDots = new ArrayList<DotDrawing>();
+            }
+            in.readTypedList(mSavedDots, DotDrawing.CREATOR);
+            mSavedWidth = in.readFloat();
+            mSavedHeight = in.readFloat();
+        }
+
+        @Override
+        public void writeToParcel(Parcel out, int flags) {
+            super.writeToParcel(out, flags);
+            out.writeTypedList(mSavedDots);
+            out.writeFloat(mSavedWidth);
+            out.writeFloat(mSavedHeight);
+        }
+
+        public static final Parcelable.Creator<SavedDotViewState> CREATOR =
+                new Parcelable.Creator<SavedDotViewState>() {
+                    public SavedDotViewState createFromParcel(Parcel in) {
+                        return new SavedDotViewState(in);
+                    }
+                    public SavedDotViewState[] newArray(int size) {
+                        return new SavedDotViewState[size];
+                    }
+                };
+    }
+
+    private static class DotDrawing implements Parcelable{
         private float mCenterX;
         private float mCenterY;
         private float mRadius;
@@ -212,15 +313,14 @@ public class DotView extends View {
             dest.writeInt(mPaintIndex);
         }
 
-        public final Parcelable.Creator<DotDrawing> CREATOR
-                = new Parcelable.Creator<DotDrawing>() {
-            public DotDrawing createFromParcel(Parcel in) {
-                return new DotDrawing(in);
-            }
-
-            public DotDrawing[] newArray(int size) {
-                return new DotDrawing[size];
-            }
-        };
+        public static final Parcelable.Creator<DotDrawing> CREATOR =
+                new Parcelable.Creator<DotDrawing>() {
+                    public DotDrawing createFromParcel(Parcel in) {
+                        return new DotDrawing(in);
+                    }
+                    public DotDrawing[] newArray(int size) {
+                        return new DotDrawing[size];
+                    }
+                };
     }
 }
