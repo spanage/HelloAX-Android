@@ -26,6 +26,7 @@ public class DotView extends View {
 
     private List<DotDrawing> mDotsArray;
     private static final List<Paint> sPaintArray = new ArrayList<Paint>();
+    private static final List<String> sDotNameArray = new ArrayList<String>();
 
     private final Random mRandom = new Random();
 
@@ -113,6 +114,12 @@ public class DotView extends View {
                 sPaintArray.add(getPaintForColor(color1));
                 sPaintArray.add(getPaintForColor(color2));
                 sPaintArray.add(getPaintForColor(color3));
+            }
+
+            if (sDotNameArray.isEmpty()) {
+                sDotNameArray.add(a.getString(R.styleable.DotView_dotColor1Name));
+                sDotNameArray.add(a.getString(R.styleable.DotView_dotColor2Name));
+                sDotNameArray.add(a.getString(R.styleable.DotView_dotColor3Name));
             }
 
         }

@@ -4,5 +4,8 @@
         <attr name="dotColor1" format="color" />
         <attr name="dotColor2" format="color" />
         <attr name="dotColor3" format="color" />
+        <attr name="dotColor1Name" format="string" />
+        <attr name="dotColor2Name" format="string" />
+        <attr name="dotColor3Name" format="string" />
     </declare-styleable>
 </resources>

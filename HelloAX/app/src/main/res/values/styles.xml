@@ -14,6 +14,9 @@
         <item name="com.sommerpanage.helloax.app:dotColor1">@color/yellowDotColor</item>
         <item name="com.sommerpanage.helloax.app:dotColor2">@color/redDotColor</item>
         <item name="com.sommerpanage.helloax.app:dotColor3">@color/blueDotColor</item>
+        <item name="com.sommerpanage.helloax.app:dotColor1Name">@string/dotColor1_name</item>
+        <item name="com.sommerpanage.helloax.app:dotColor2Name">@string/dotColor2_name</item>
+        <item name="com.sommerpanage.helloax.app:dotColor3Name">@string/dotColor3_name</item>
         <item name="com.sommerpanage.helloax.app:dotRadius">20sp</item>
     </style>
 
