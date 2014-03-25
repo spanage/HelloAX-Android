@@ -52,10 +52,6 @@ public class DotView extends View {
         init(attrs, defStyle);
     }
 
-    public ArrayList<? extends Parcelable> getDotsState() {
-        return new ArrayList<DotDrawing>(mDotsArray);
-    }
-
     public void addRandomDot() {
         mDotsArray.add(new DotDrawing(getRandomDotCenterPoint(true),
                        getRandomDotCenterPoint(false),
@@ -102,26 +98,22 @@ public class DotView extends View {
         final TypedArray a = getContext().obtainStyledAttributes(
                 attrs, R.styleable.DotView, defStyle, 0);
 
-        if (a != null) {
+        mDotRadius = a.getDimension(R.styleable.DotView_dotRadius, mDotRadius);
 
-            mDotRadius = a.getDimension(R.styleable.DotView_dotRadius, mDotRadius);
+        int color1 = a.getColor(R.styleable.DotView_dotColor1, DEFAULT_DOT_COLOR);
+        int color2 = a.getColor(R.styleable.DotView_dotColor2, DEFAULT_DOT_COLOR);
+        int color3 = a.getColor(R.styleable.DotView_dotColor3, DEFAULT_DOT_COLOR);
 
-            int color1 = a.getColor(R.styleable.DotView_dotColor1, DEFAULT_DOT_COLOR);
-            int color2 = a.getColor(R.styleable.DotView_dotColor2, DEFAULT_DOT_COLOR);
-            int color3 = a.getColor(R.styleable.DotView_dotColor3, DEFAULT_DOT_COLOR);
+        if (sPaintArray.isEmpty()) {
+            sPaintArray.add(getPaintForColor(color1));
+            sPaintArray.add(getPaintForColor(color2));
+            sPaintArray.add(getPaintForColor(color3));
+        }
 
-            if (sPaintArray.isEmpty()) {
-                sPaintArray.add(getPaintForColor(color1));
-                sPaintArray.add(getPaintForColor(color2));
-                sPaintArray.add(getPaintForColor(color3));
-            }
-
-            if (sDotNameArray.isEmpty()) {
-                sDotNameArray.add(a.getString(R.styleable.DotView_dotColor1Name));
-                sDotNameArray.add(a.getString(R.styleable.DotView_dotColor2Name));
-                sDotNameArray.add(a.getString(R.styleable.DotView_dotColor3Name));
-            }
-
+        if (sDotNameArray.isEmpty()) {
+            sDotNameArray.add(a.getString(R.styleable.DotView_dotColor1Name));
+            sDotNameArray.add(a.getString(R.styleable.DotView_dotColor2Name));
+            sDotNameArray.add(a.getString(R.styleable.DotView_dotColor3Name));
         }
 
         mDotsArray = new ArrayList<DotDrawing>();
