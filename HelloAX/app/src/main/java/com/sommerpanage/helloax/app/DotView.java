@@ -60,12 +60,14 @@ public class DotView extends View {
                 mDotRadius,
                 getRandomPaintIndex()));
         invalidate();
+        updateAccessibility();
     }
 
     public void removeLastDot() {
         if (!mDotsArray.isEmpty()) {
             mDotsArray.remove(mDotsArray.size() - 1);
             invalidate();
+            updateAccessibility();
         }
 
     }
@@ -73,6 +75,15 @@ public class DotView extends View {
     public void clearDots() {
         mDotsArray.clear();
         invalidate();
+        updateAccessibility();
+    }
+
+    private void updateAccessibility() {
+        final int dotCount = mDotsArray.size();
+        final String contentDescription = (dotCount == 1) ?
+                getContext().getString(R.string.ax_basic_dot_view_singular) :
+                String.format(getContext().getString(R.string.ax_basic_dot_view_plural_format), dotCount);
+        setContentDescription(contentDescription);
     }
 
     private float getRandomDotCenterPoint(boolean isX) {
@@ -119,6 +130,8 @@ public class DotView extends View {
         }
 
         mDotsArray = new ArrayList<DotDrawing>();
+
+        updateAccessibility();
     }
 
     private Paint getPaintForColor(int color) {
@@ -212,6 +225,7 @@ public class DotView extends View {
         mDotsArray = ss.getSavedDots();
         mPreviousWidth = ss.getSavedWidth();
         mPreviousHeight = ss.getSavedHeight();
+        updateAccessibility();
     }
 
     private static class SavedDotViewState extends BaseSavedState {

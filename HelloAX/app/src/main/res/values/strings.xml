@@ -11,4 +11,11 @@
     <string name="dotColor2_name">Red Dot</string>
     <string name="dotColor3_name">Blue Dot</string>
 
+    <!--Accessibility-->
+    <string name="ax_header">Hello Accessibility. Header.</string>
+    <string name="ax_button_minus">Remove dot</string>
+    <string name="ax_button_plus">Add dot</string>
+    <string name="ax_basic_dot_view_singular">1 dot.</string>
+    <string name="ax_basic_dot_view_plural_format">%d multi-colored dots.</string>
+
 </resources>
