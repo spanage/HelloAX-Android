@@ -4,7 +4,8 @@ Hello Accessibility: Android Accessibility Teaching Tool
 An extremely simple application built to use as a teaching tool for Accessibility for Android.
 
 The application consists of:
-* Two text buttons (one with working default Accessibility and one without)
+* One ImageView
+* Two text Buttons (one with working default Accessibility and one without)
 * One image button
 * A custom-drawn view
 
