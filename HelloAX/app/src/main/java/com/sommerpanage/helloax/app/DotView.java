@@ -55,14 +55,6 @@ public class DotView extends View {
         return new ArrayList<DotDrawing>(mDotsArray);
     }
 
-    public void setDotsState(List<? extends Parcelable> dots) {
-        if (!dots.isEmpty() && dots.get(0) instanceof DotDrawing) {
-            mDotsArray = (List<DotDrawing>) dots;
-            invalidate();
-        }
-
-    }
-
     public void addRandomDot() {
         mDotsArray.add(new DotDrawing(getRandomDotCenterPoint(true),
                        getRandomDotCenterPoint(false),

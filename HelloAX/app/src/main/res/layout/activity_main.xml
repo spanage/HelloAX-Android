@@ -10,11 +10,11 @@
     tools:context="com.sommerpanage.helloax.app.MainActivity">
 
     <ImageView
-            android:id="@+id/header_image"
-            android:layout_width="fill_parent"
-            android:layout_height="@dimen/header_height"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/dots"/>
+        android:id="@+id/header_image"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/header_height"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/dots"/>
 
     <LinearLayout
         android:id="@+id/linear_layout"
@@ -33,12 +33,12 @@
             android:src="@android:drawable/btn_minus"/>
 
         <Button
-                android:id="@+id/clear_button"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:layout_width="wrap_content"
-                android:text="Clear"
-                android:src="@android:drawable/btn_minus"/>
+            android:id="@+id/clear_button"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:text="Clear"
+            android:src="@android:drawable/btn_minus"/>
 
         <ImageButton
             android:id="@+id/plus_button"
