@@ -67,12 +67,38 @@ public class DotView extends View {
                 mDotRadius,
                 getRandomPaintIndex()));
         invalidate();
+
+        // Accessibility
+        final int size = mDotsArray.size();
+        final String dotName = sDotNameArray.get(mDotsArray.get(size - 1).getPaintIndex());
+        if (size == 1) {
+            announceForAccessibility(String.format(getResources().
+                    getString(R.string.ax_action_added_dot_1), dotName));
+        } else {
+            announceForAccessibility(String.format(getResources().
+                    getString(R.string.ax_action_added_dot), dotName, size));
+        }
     }
 
     public void removeLastDot() {
         if (!mDotsArray.isEmpty()) {
-            mDotsArray.remove(mDotsArray.size() - 1);
+            // Accessibility
+            final int index = mDotsArray.size() - 1;
+            final String dotName = sDotNameArray.get(mDotsArray.get(index).getPaintIndex());
+            mDotsArray.remove(index);
             invalidate();
+
+            // Accessibility
+            final int size = mDotsArray.size();
+            if (size == 1) {
+                announceForAccessibility(String.format(getResources().
+                        getString(R.string.ax_action_removed_dot_1), dotName));
+            } else {
+                announceForAccessibility(String.format(getResources().
+                        getString(R.string.ax_action_removed_dot), dotName, size));
+            }
+        } else {
+            announceForAccessibility(getResources().getString(R.string.ax_cannot_remove_dots));
         }
 
     }
@@ -80,6 +106,8 @@ public class DotView extends View {
     public void clearDots() {
         mDotsArray.clear();
         invalidate();
+
+        announceForAccessibility(getResources().getString(R.string.ax_action_cleared_dots));
     }
 
     private float getRandomDotCenterPoint(boolean isX) {

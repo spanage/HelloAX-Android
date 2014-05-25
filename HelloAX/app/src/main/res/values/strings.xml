@@ -12,10 +12,17 @@
     <string name="dotColor3_name">Blue Dot</string>
 
     <!--Accessibility-->
-    <string name="ax_header">Hello Accessibility. Header.</string>
+    <string name="ax_header">Hello Accessibility. Header image.</string>
     <string name="ax_button_minus">Remove dot</string>
     <string name="ax_button_plus">Add dot</string>
     <string name="ax_basic_dot_view_singular">1 dot.</string>
     <string name="ax_basic_dot_view_plural_format">%d multi-colored dots.</string>
+
+    <string name="ax_action_added_dot">%1$s added. %2$d dots</string>
+    <string name="ax_action_added_dot_1">%1$s added. 1 dot</string>
+    <string name="ax_action_removed_dot">%1$s removed. %2$d dots</string>
+    <string name="ax_action_removed_dot_1">%1$s removed. 1 dot</string>
+    <string name="ax_action_cleared_dots">Cleared all dots</string>
+    <string name="ax_cannot_remove_dots">No dots to remove</string>
 
 </resources>
