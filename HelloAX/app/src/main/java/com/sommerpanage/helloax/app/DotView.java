@@ -194,6 +194,9 @@ public class DotView extends View {
         dot.setPaintIndex((dot.getPaintIndex() + 1) % sPaintArray.size());
         invalidate();
 
+        mDotViewTouchHelper.invalidateVirtualView(index);
+        mDotViewTouchHelper.sendEventForVirtualView(index, AccessibilityEvent.TYPE_VIEW_CLICKED);
+
         return true;
     }
 
@@ -442,6 +445,7 @@ public class DotView extends View {
 
             node.setContentDescription(sDotNameArray.get((dot.getPaintIndex())));
             node.setBoundsInParent(dot.getRect());
+            node.addAction(AccessibilityNodeInfoCompat.ACTION_CLICK);
         }
 
         @Override
