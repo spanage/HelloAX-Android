@@ -479,6 +479,10 @@ public class DotView extends View {
         @Override
         protected boolean onPerformActionForVirtualView(
                 int virtualViewId, int action, Bundle arguments) {
+            switch (action) {
+                case AccessibilityNodeInfoCompat.ACTION_CLICK:
+                    return mView.onDotClicked(virtualViewId);
+            }
             return false;
         }
 
